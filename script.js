@@ -260,14 +260,34 @@ const app = {
         });
 
         this.setupPhraseClicks();
+        this.setupMobileAudioUnlock();
     },
 
     ensureAudioContext() {
         // Lazy init audio on first interaction
         this.audio.init();
+
+        // Always try to resume if suspended (needed for mobile)
         if (this.audio.audioCtx && this.audio.audioCtx.state === 'suspended') {
-            this.audio.audioCtx.resume();
+            this.audio.audioCtx.resume().then(() => {
+                // console.log('AudioContext resumed');
+            });
         }
+    },
+
+    setupMobileAudioUnlock() {
+        // Global unlock for mobile browsers
+        const unlock = () => {
+            this.ensureAudioContext();
+            // Remove listener after first successful unlock attempt
+            if (this.audio.audioCtx && this.audio.audioCtx.state === 'running') {
+                document.removeEventListener('touchstart', unlock);
+                document.removeEventListener('click', unlock);
+            }
+        };
+
+        document.addEventListener('touchstart', unlock, { passive: true });
+        document.addEventListener('click', unlock, { passive: true });
     },
 
     activate() {
