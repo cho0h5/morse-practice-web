@@ -1,0 +1,499 @@
+:root {
+    --bg-color: #000000;
+    --case-color: #1a1a1a;
+    --case-dark: #0d0d0d;
+    --lcd-bg: #0a0a0a;
+    --lcd-on: #4ade80;
+    --lcd-off: #14532d;
+    --lcd-amber: #fbbf24;
+    --text-muted: #666666;
+    --accent-color: #ef4444;
+    /* TX Red */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Share Tech Mono', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-muted);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.main-layout {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    gap: 2rem;
+    padding: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 260px;
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar h2 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: var(--lcd-on);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid rgba(74, 222, 128, 0.2);
+    padding-bottom: 0.5rem;
+}
+
+.phrase-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.phrase-category {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 1rem;
+    margin-bottom: 0.2rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--lcd-on);
+}
+
+.phrase-card {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.6rem;
+    border-radius: 0.25rem;
+    transition: background 0.2s;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.phrase-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.phrase-card.playing {
+    background: rgba(74, 222, 128, 0.1);
+    border-color: var(--lcd-on);
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.2);
+}
+
+.phrase-text {
+    display: block;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin-bottom: 0.1rem;
+}
+
+.phrase-code {
+    display: block;
+    font-family: 'VT323', monospace;
+    color: var(--lcd-on);
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+}
+
+/* Radio Case Styling */
+.radio-case {
+    position: relative;
+    background: linear-gradient(145deg, var(--case-color), var(--case-dark));
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.8),
+        inset 0 1px 1px rgba(255, 255, 255, 0.05),
+        inset 0 -2px 5px rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    /* Neutral border */
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Screws */
+.screw {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle, #555, #222);
+    /* Neutral grays */
+    border-radius: 50%;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8), 0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.screw::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 2px;
+    background: #111;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.top-left {
+    top: 10px;
+    left: 10px;
+}
+
+.top-right {
+    top: 10px;
+    right: 10px;
+}
+
+.bottom-left {
+    bottom: 10px;
+    left: 10px;
+}
+
+.bottom-right {
+    bottom: 10px;
+    right: 10px;
+}
+
+/* LCD Panel */
+.lcd-panel {
+    background: var(--lcd-bg);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow:
+        inset 0 2px 10px rgba(0, 0, 0, 0.8),
+        0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 2px solid #1a202c;
+    position: relative;
+    overflow: hidden;
+}
+
+.lcd-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Settings Row */
+.settings-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(74, 222, 128, 0.2);
+    padding-bottom: 0.5rem;
+    gap: 1rem;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.control-group label {
+    font-size: 0.7rem;
+    color: var(--lcd-off);
+    margin-bottom: 0.2rem;
+}
+
+.slider-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.wpm-readout,
+.ms-readout {
+    font-family: 'VT323', monospace;
+    color: var(--lcd-on);
+    font-size: 1.2rem;
+}
+
+.unit {
+    font-size: 0.7rem;
+    color: var(--lcd-off);
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    width: 80px;
+    height: 4px;
+    background: var(--lcd-off);
+    border-radius: 2px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--lcd-on);
+    border-radius: 0;
+    box-shadow: 0 0 5px var(--lcd-on);
+    cursor: pointer;
+}
+
+.btn-clear {
+    background: transparent;
+    border: 1px solid var(--lcd-off);
+    color: var(--lcd-on);
+    font-family: 'Share Tech Mono', monospace;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-clear:hover {
+    background: var(--lcd-off);
+    box-shadow: 0 0 5px var(--lcd-off);
+}
+
+/* Readout Area */
+.readout-area {
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.decoded-text {
+    font-family: 'VT323', monospace;
+    font-size: 2.5rem;
+    color: var(--lcd-on);
+    text-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+    text-transform: uppercase;
+    width: 100%;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.decoded-text:empty::before {
+    content: 'READY...';
+    color: var(--lcd-off);
+    opacity: 0.5;
+}
+
+.current-sequence {
+    font-family: 'VT323', monospace;
+    font-size: 1.8rem;
+    color: var(--lcd-amber);
+    height: 2rem;
+    margin-top: 0.5rem;
+}
+
+.preview-char {
+    color: var(--lcd-off);
+}
+
+/* Signal Meter */
+.signal-meter-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.meter-label {
+    font-size: 0.7rem;
+    color: var(--lcd-off);
+    font-weight: 700;
+}
+
+.timer-bar-container {
+    flex-grow: 1;
+    height: 8px;
+    background: rgba(20, 83, 45, 0.3);
+    border: 1px solid var(--lcd-off);
+    padding: 1px;
+}
+
+.timer-bar {
+    width: 0%;
+    height: 100%;
+    background: var(--lcd-on);
+    box-shadow: 0 0 5px var(--lcd-on);
+    transition: width 0.05s linear, background-color 0.2s ease;
+}
+
+/* Control Deck */
+.control-deck {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.status-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-light {
+    width: 24px;
+    height: 24px;
+    background-color: #333;
+    border-radius: 50%;
+    border: 2px solid #1a202c;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.8);
+    transition: all 0.05s;
+}
+
+.status-light.active {
+    background-color: #ef4444;
+    box-shadow: 0 0 15px #ef4444, inset 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.status-section .label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #cbd5e0;
+}
+
+/* Key Mechanism */
+.key-mechanism {
+    position: relative;
+    width: 200px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.key-base {
+    position: absolute;
+    bottom: 10px;
+    width: 140px;
+    height: 30px;
+    background: #151515;
+    border-radius: 4px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+    z-index: 1;
+}
+
+.key-arm {
+    position: absolute;
+    width: 100px;
+    height: 12px;
+    background: linear-gradient(to bottom, #666, #444);
+    /* Neutral grays */
+    top: 50%;
+    transform-origin: right center;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.key-knob {
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(circle at 30% 30%, #444, #111);
+    /* Neutral grays */
+    border-radius: 50%;
+    box-shadow:
+        0 10px 15px rgba(0, 0, 0, 0.6),
+        inset 0 2px 5px rgba(255, 255, 255, 0.1);
+    z-index: 3;
+    cursor: pointer;
+    position: relative;
+    top: -20px;
+    transition: transform 0.05s cubic-bezier(0.1, 0.7, 1.0, 0.1);
+    border: 1px solid #222;
+}
+
+.key-knob:active,
+.key-knob.active {
+    transform: translateY(8px);
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    body {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        padding: 1rem 0;
+        align-items: flex-start;
+        /* Allow content to flow from top */
+    }
+
+    .main-layout {
+        flex-direction: column-reverse;
+        padding: 0 1rem;
+        gap: 2rem;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .radio-case {
+        width: 100%;
+        max-width: 100%;
+        padding: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .sidebar {
+        width: 100%;
+        max-height: none;
+        /* Let it expand naturally or keep scroll if preferred */
+        height: 400px;
+        /* Fixed height for scrolling area */
+        margin-bottom: 1rem;
+    }
+
+    .lcd-panel {
+        padding: 1rem;
+    }
+
+    .decoded-text {
+        font-size: 1.8rem;
+    }
+
+    .current-sequence {
+        font-size: 1.4rem;
+    }
+
+    .key-mechanism {
+        transform: scale(0.9);
+    }
+
+    /* Ensure slider is easy to grab */
+    input[type=range] {
+        height: 8px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        width: 20px;
+        height: 20px;
+    }
+}

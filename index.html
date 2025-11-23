@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morse Code Practice</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&family=Share+Tech+Mono&family=VT323&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="main-layout">
+        <aside class="sidebar">
+            <h2>Logbook / Reference</h2>
+            <div class="phrase-list">
+                <h3 class="phrase-category">Essential</h3>
+                <div class="phrase-card">
+                    <span class="phrase-text">CQ (Calling)</span>
+                    <span class="phrase-code">-.-. --.-</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">DE (From)</span>
+                    <span class="phrase-code">-.. .</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">K (Over)</span>
+                    <span class="phrase-code">-.-</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">73 (Regards)</span>
+                    <span class="phrase-code">--... ...--</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">RST (Report)</span>
+                    <span class="phrase-code">.-. ... -</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">QSL (Ack)</span>
+                    <span class="phrase-code">--.- ... .-..</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">SK (End)</span>
+                    <span class="phrase-code">... -.-</span>
+                </div>
+
+                <h3 class="phrase-category">Useful</h3>
+                <div class="phrase-card">
+                    <span class="phrase-text">GM (Morning)</span>
+                    <span class="phrase-code">--. --</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">GA (Afternoon)</span>
+                    <span class="phrase-code">--. .-</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">GE (Evening)</span>
+                    <span class="phrase-code">--. .</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">OP (Operator)</span>
+                    <span class="phrase-code">--- .--.</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">UR (Your)</span>
+                    <span class="phrase-code">..- .-.</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">HW (How?)</span>
+                    <span class="phrase-code">.... .--</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">QRZ (Who?)</span>
+                    <span class="phrase-code">--.- .-. --..</span>
+                </div>
+                <div class="phrase-card">
+                    <span class="phrase-text">QTH (Loc)</span>
+                    <span class="phrase-code">--.- - ....</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="radio-case">
+            <div class="screw top-left"></div>
+            <div class="screw top-right"></div>
+            <div class="screw bottom-left"></div>
+            <div class="screw bottom-right"></div>
+
+            <div class="lcd-panel">
+                <div class="settings-row">
+                    <div class="control-group">
+                        <label for="wpm-slider">SPEED (WPM)</label>
+                        <div class="slider-wrapper">
+                            <input type="range" id="wpm-slider" min="5" max="40" value="20" step="1">
+                            <div class="wpm-readout">
+                                <span id="wpm-value">20</span>
+                                <span class="unit">WPM</span>
+                            </div>
+                            <div class="ms-readout">
+                                <span id="ms-value">60</span>
+                                <span class="unit">ms</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="clear-btn" class="btn-clear" title="Clear Text">CLR</button>
+                </div>
+
+                <div class="readout-area">
+                    <div id="decoded-text" class="decoded-text" placeholder="READY..."></div>
+                    <div id="current-sequence" class="current-sequence"></div>
+                </div>
+
+                <div class="signal-meter-container">
+                    <span class="meter-label">SIG</span>
+                    <div class="timer-bar-container">
+                        <div id="timer-bar" class="timer-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-deck">
+                <div class="status-section">
+                    <div class="status-light" id="status-light"></div>
+                    <span class="label">TX</span>
+                </div>
+                <div class="key-mechanism">
+                    <div class="key-base"></div>
+                    <div class="key-arm"></div>
+                    <div class="key-knob" id="key-knob"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
